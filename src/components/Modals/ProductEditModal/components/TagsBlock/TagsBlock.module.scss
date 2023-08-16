@@ -1,0 +1,31 @@
+.tags {
+	&-block {
+		border-radius: 8px;
+		border: 1px solid #d0d3da;
+		background: #fff;
+		padding: 6px 12px;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+		min-height: 41.5px;
+		&__item {
+			span {
+				display: flex;
+				white-space: nowrap;
+				align-items: center;
+				gap: 4px;
+				font-size: 13px;
+				padding: 4px 12px;
+				background-color: #f7ecf8;
+				border-radius: 4px;
+			}
+			button {
+				width: 16px;
+				height: 16px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+		}
+	}
+}

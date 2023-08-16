@@ -1,0 +1,15 @@
+.edit-sales__wrapper {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.5em;
+	align-items: center;
+	.button-delete {
+		margin-bottom: -16px;
+	}
+	@media (max-width: 768px) {
+		grid-template-columns: 1fr;
+	}
+}
+.list-block__select {
+	height: 54px;
+}

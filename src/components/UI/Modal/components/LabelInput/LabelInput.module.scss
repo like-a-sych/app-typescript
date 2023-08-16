@@ -1,0 +1,58 @@
+.input-wrapper {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+.input {
+	border-radius: 8px;
+	border: 1px solid #d0d3da;
+	background: #fff;
+	height: 54px;
+	padding: 10px;
+	padding-right: 30px;
+	font-size: 14px;
+	font-weight: 400;
+	cursor: pointer;
+	&:disabled {
+		color: #37393d;
+		background-color: #f8f8fa;
+		color: #aaafbd;
+	}
+}
+.label {
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 171.428571%; /* 24/14 */
+	color: #37393d;
+	margin-bottom: 4px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+.label-before {
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 171.428571%; /* 24/14 */
+	color: #37393d;
+	margin-bottom: 4px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+
+	&::before {
+		content: "";
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		top: auto;
+		bottom: 11px;
+		right: 20px;
+		height: 30px;
+		width: 30px;
+		margin: auto;
+		cursor: pointer;
+		background: no-repeat 98% center/16px url("../../../../../img/arrow.svg");
+	}
+}

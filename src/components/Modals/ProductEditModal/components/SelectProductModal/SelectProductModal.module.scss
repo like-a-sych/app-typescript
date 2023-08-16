@@ -1,0 +1,30 @@
+// .label-before {
+// 	font-size: 14px;
+// 	font-weight: 500;
+// 	line-height: 171.428571%; /* 24/14 */
+// 	color: #37393d;
+// 	margin-bottom: 4px;
+// 	position: relative;
+// 	display: flex;
+// 	flex-direction: column;
+// 	width: 100%;
+
+// 	&::before {
+// 		content: "";
+// 		position: absolute;
+// 		display: flex;
+// 		align-items: center;
+// 		justify-content: center;
+// 		top: auto;
+// 		bottom: 11px;
+// 		right: 20px;
+// 		height: 30px;
+// 		width: 30px;
+// 		margin: auto;
+// 		cursor: pointer;
+// 		background: no-repeat 98% center/16px url("../../../../../UI/img/arrow.svg");
+// 	}
+// }
+.list-block__select {
+	height: 54px;
+}

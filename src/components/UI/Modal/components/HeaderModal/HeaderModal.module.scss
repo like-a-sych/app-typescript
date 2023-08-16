@@ -1,0 +1,16 @@
+.header-button {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 1em;
+}
+.sales {
+	&__header {
+		padding: 26px 40px;
+	}
+	&__body {
+		padding: 1em 40px;
+		@media (max-width: 768px) {
+			padding: 1em;
+		}
+	}
+}

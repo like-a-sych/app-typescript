@@ -1,0 +1,29 @@
+.input-list {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+.list-block {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	&__list {
+		display: flex;
+		flex-direction: column;
+		gap: 30px;
+		width: 100%;
+	}
+	&__list-item {
+		display: flex;
+		justify-content: flex-start;
+		flex-direction: column;
+		position: relative;
+		&._active {
+			.sales-block__input-wrapper::before {
+				transform: rotate(180deg);
+			}
+		}
+	}
+}

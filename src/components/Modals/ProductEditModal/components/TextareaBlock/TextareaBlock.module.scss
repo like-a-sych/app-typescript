@@ -1,0 +1,22 @@
+.textarea {
+	resize: none;
+	font-family: inherit;
+	min-height: 52px;
+	height: 150px;
+	border-radius: 8px;
+	border: 1px solid #d0d3da;
+	background: #fff;
+	padding: 8px 12px;
+}
+.textarea-label {
+	margin-top: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 171.428571%;
+	color: #37393d;
+	margin-bottom: 4px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}

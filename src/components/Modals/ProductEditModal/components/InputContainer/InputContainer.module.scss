@@ -1,0 +1,44 @@
+.input-container {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
+	@media (max-width: 768px) {
+		gap: 1em;
+	}
+	&__block {
+		display: grid;
+		grid-template-columns: 1fr 1fr 32px;
+		gap: 0.5em;
+		align-items: center;
+		@media (max-width: 768px) {
+			grid-template-columns: unset;
+			grid-template-areas:
+				"a b"
+				"c b";
+			input:nth-child(1) {
+				grid-area: a;
+			}
+			input:nth-child(2) {
+				grid-area: c;
+			}
+			button {
+				grid-area: b;
+			}
+		}
+		.button-delete {
+			margin-bottom: 6px;
+		}
+		.title {
+			grid-column: 1/-1;
+			margin: 0;
+		}
+	}
+}
+.title {
+	margin-top: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 171.428571%;
+	color: #37393d;
+	margin-bottom: 4px;
+}

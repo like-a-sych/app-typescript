@@ -1,0 +1,27 @@
+.aside {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: -webkit-sticky;
+	position: sticky;
+	inset: 0 auto;
+	@media (max-width: 1030px) {
+		position: unset;
+		justify-content: flex-start;
+		overflow-x: scroll;
+		margin-top: 0px;
+		align-items: flex-start;
+	}
+	&__list {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		justify-content: center;
+		max-width: 185px;
+		width: 100%;
+		@media (max-width: 1030px) {
+			flex-direction: row;
+			justify-content: flex-start;
+		}
+	}
+}

@@ -1,0 +1,23 @@
+.admin-panel {
+	display: grid;
+	grid-template-columns: 40px 1fr;
+	max-width: 144px;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 16px;
+
+	&__email {
+		font-size: 14px;
+		line-height: 142.857143%; /* 20/14 */
+	}
+	&__ring {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: #ebecef;
+		width: 40px;
+		height: 40px;
+	}
+}
+.header {
+}
