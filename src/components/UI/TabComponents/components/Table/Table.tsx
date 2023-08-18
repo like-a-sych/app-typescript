@@ -1,10 +1,10 @@
-import { usePopup } from "../../../../../hooks/usePopup";
+import { useTableCheckbox } from "../../../../../hooks/useTableCheckbox";
 import TableHead from "./components/TableHead";
 import RowTable from "./components/RowTable";
 import PopUp from "../../../../Modals/PopUp/PopUp";
 
 import style from "./Table.module.scss";
-import { IColumns } from "../../../../../interfaces/columns";
+import type { IColumns } from "../../../../../interfaces/columns";
 
 interface ITableProps {
 	columns: IColumns[];
@@ -18,13 +18,6 @@ interface ITableProps {
 			data: {};
 		}>
 	>;
-	checkboxSetting: {
-		allClick: () => void;
-		checkboxHandler: (id: string) => void;
-		isAllChecked: boolean;
-		deleteCellTable: () => void;
-		checkedItemsArray: string[];
-	};
 	idModal: string;
 }
 
@@ -33,16 +26,17 @@ export default function Table({
 	hasCheckbox,
 	data,
 	setModalState,
-	checkboxSetting: {
+	idModal,
+}: ITableProps): JSX.Element {
+	const {
 		allClick,
 		isAllChecked,
 		checkboxHandler,
 		deleteCellTable,
 		checkedItemsArray,
-	},
-	idModal,
-}: ITableProps): JSX.Element {
-	const { openPopup, PopUpToggle } = usePopup({ checkedItemsArray });
+		openPopup,
+		PopUpToggle,
+	} = useTableCheckbox(data);
 	return (
 		<>
 			<table className={style["content-sales-table"]}>
@@ -59,7 +53,7 @@ export default function Table({
 							<RowTable
 								hasCheckbox={hasCheckbox}
 								key={`id-${index}${Math.random()}`}
-								item={item}
+								dataRow={item}
 								columns={columns}
 								setModalState={setModalState}
 								checkboxHandler={checkboxHandler}

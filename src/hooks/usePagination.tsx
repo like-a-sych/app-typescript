@@ -7,7 +7,7 @@ export function usePagination(
 	lengthData: number,
 	loadData: TLoadDataFunc
 ) {
-	const [lastPagePagination, setLastPagePagination] = useState(0);
+	const [lastPagePagination, setLastPagePagination] = useState(1);
 	const [pagination, setPagination] = useState(1);
 	const [limitRows, setLimitRows] = useState(visibleCells[0]);
 
@@ -20,7 +20,6 @@ export function usePagination(
 	const handleChangePageNext = () => {
 		if (pagination < Math.ceil(lengthData / data.length)) {
 			setPagination(prev => prev + 1);
-			console.log(pagination);
 			loadData(limitRows, pagination + 1);
 		}
 	};
@@ -36,11 +35,12 @@ export function usePagination(
 
 	useEffect(() => {
 		if (Array.isArray(data)) {
-			setLastPagePagination(
-				Math.ceil(lengthData / data.length) // переменная для вычисления последней странице на основе отображаемого контента на странице
-			);
+			data.length > 0 &&
+				setLastPagePagination(
+					Math.ceil(lengthData / data.length) // переменная для вычисления последней страницы на основе отображаемого контента на странице
+				);
 		}
-	}, [data]);
+	}, [data, lengthData]);
 	return {
 		pagination,
 		handlePaginationChange,

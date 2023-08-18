@@ -16,3 +16,13 @@ export interface IProductsData {
     category: string;
     subcategory: string;
 }
+
+export interface IUsers {
+    id: string;
+    email: string | null;
+    phone: string;
+    name: string;
+    lastName: string | null;
+    firmName: string | null;
+    role: string;
+}

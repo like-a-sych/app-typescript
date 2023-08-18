@@ -21,7 +21,7 @@ export function useAuth() {
 		navigate("/");
 	}, [navigate]);
 
-	async function handlerSubmitForm(event) {
+	async function handlerSubmitForm(event: React.FormEvent) {
 		//*обработчик для кнопки войти с учетными данными
 		event.preventDefault();
 		try {

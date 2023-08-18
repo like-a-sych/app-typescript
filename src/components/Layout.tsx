@@ -4,7 +4,11 @@ import AdminButton from "./MainContent/components/AdminButton";
 
 import style from "./Layout.module.scss";
 
-function Layout({ handleLogout }) {
+interface ILayout {
+	handleLogout: () => void;
+}
+
+function Layout({ handleLogout }: ILayout): JSX.Element {
 	return (
 		<div className={style.wrapper}>
 			<div className={style.container}>

@@ -1,7 +1,13 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { pathNames } from "../constants/path";
 
-export default function ProtectedRoutes({ isAuth }) {
+interface IProtectedRoutes {
+	isAuth: boolean;
+}
+
+export default function ProtectedRoutes({
+	isAuth,
+}: IProtectedRoutes): JSX.Element {
 	const location = useLocation();
 
 	if (!isAuth) {

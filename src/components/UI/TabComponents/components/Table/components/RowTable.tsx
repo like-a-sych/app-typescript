@@ -3,10 +3,11 @@ import { memo } from "react";
 import RowCheckbox from "./RowCheckbox/RowCheckbox";
 
 import style from "../Table.module.scss";
+
 import type { IColumns } from "../../../../../../interfaces/columns";
 
 interface IRowTable {
-	item: any;
+	dataRow: any;
 	setModalState?: React.Dispatch<
 		React.SetStateAction<{
 			idModal: string;
@@ -24,7 +25,7 @@ interface IRowTable {
 }
 
 function RowTable({
-	item,
+	dataRow,
 	setModalState,
 	checkboxHandler,
 	isChecked,
@@ -33,20 +34,20 @@ function RowTable({
 	hasCheckbox,
 	data,
 }: IRowTable): JSX.Element {
-	const rowData: string[] = columns.map(element => element.selector(item));
+	const rowData: string[] = columns.map(element => element.selector(dataRow));
 
 	function clickBtn() {
 		setModalState &&
 			setModalState({
 				isOpen: true,
-				dataRow: item,
+				dataRow,
 				idModal,
 				data: data,
 			});
 	}
 
 	function clickCheckbox() {
-		checkboxHandler(item.id);
+		checkboxHandler(dataRow.id);
 	}
 
 	return (
@@ -54,7 +55,7 @@ function RowTable({
 			{hasCheckbox && (
 				<RowCheckbox
 					isChecked={isChecked}
-					id={item.id}
+					id={dataRow.id}
 					clickCheckbox={clickCheckbox}
 				/>
 			)}

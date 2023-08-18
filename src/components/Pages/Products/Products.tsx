@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { MainContext } from "../../../context";
 import ProductService from "../../../services/productService";
 import { useSearch } from "../../../hooks/useSearch";
-import { useTableCheckbox } from "../../../hooks/useTableCheckbox";
 import { usePagination } from "../../../hooks/usePagination";
 
 import Pagination from "../../UI/TabComponents/components/Pagination/Pagination";
@@ -54,7 +53,7 @@ export default function Products(): JSX.Element {
 	};
 
 	const paginationSetting = usePagination(products, lengthData, loadProducts);
-	const checkboxSetting = useTableCheckbox(products);
+
 	const { setSearchValue, clearSearch } = useSearch(
 		setProducts,
 		searchProducts
@@ -76,7 +75,6 @@ export default function Products(): JSX.Element {
 						data={products}
 						hasCheckbox={true}
 						idModal="purchaseEdit"
-						checkboxSetting={checkboxSetting}
 						setModalState={setModalState}
 					/>
 				</div>

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function useTableCheckbox(data: any[]) {
 	const [checkedItemsArray, setCheckedItemsArray] = useState<string[]>([]);
+	const [openPopup, setOpenPopup] = useState(false); // дефолтное состояние popup
 	function deleteCellTable() {
 		//функция для удаления выделенных чекбоксом полей и отрисовки нового массива
 		for (let i = 0; i < data.length; i++) {
@@ -11,6 +12,10 @@ export function useTableCheckbox(data: any[]) {
 			}
 		}
 		setCheckedItemsArray([]);
+	}
+
+	function PopUpToggle() {
+		setOpenPopup(prev => !prev);
 	}
 
 	const isAllChecked =
@@ -39,12 +44,21 @@ export function useTableCheckbox(data: any[]) {
 		}
 		setCheckedItemsArray(newArr); //иначе добавляем оставшиеся поля таблицы в массив
 	}
-
+	useEffect(() => {
+		// стейт для вызова попапа, когда выделяешь чекбоксы таблицы
+		if (checkedItemsArray.length === 0) {
+			setOpenPopup(false);
+		} else {
+			setOpenPopup(true);
+		}
+	}, [checkedItemsArray]);
 	return {
 		allClick,
 		checkboxHandler,
 		isAllChecked,
 		deleteCellTable,
 		checkedItemsArray,
+		PopUpToggle,
+		openPopup,
 	};
 }

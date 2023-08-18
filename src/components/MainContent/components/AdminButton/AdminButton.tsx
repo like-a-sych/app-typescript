@@ -3,7 +3,7 @@ import style from "./AdminButton.module.scss";
 export default function AdminButton() {
 	return (
 		<div className={style["admin-panel"]}>
-			<a href="#" className={style["admin-panel__ring"]}>
+			<a href="mailto:test@test.ru" className={style["admin-panel__ring"]}>
 				<svg
 					width="16"
 					height="16"

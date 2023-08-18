@@ -38,6 +38,7 @@ export default function Pagination({
 						))}
 					</select>
 				</div>
+
 				<div className={style["pagination__pages"]}>
 					<p>Страница</p>
 					<div className={style["pagination__page"]}>
