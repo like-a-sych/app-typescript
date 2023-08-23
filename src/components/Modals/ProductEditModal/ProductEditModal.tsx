@@ -43,43 +43,35 @@ function PurchaseEditModal(): JSX.Element {
 
 	//=======================
 	//функция для удаления локально характеристик
-	function deleteRowCharstics() {
-		console.log("deleteRowCharstics");
+	function deleteRowCharstics(id: string) {
+		const newArr = charstics.filter(item => {
+			return item.id !== id;
+		});
+		setCharstics(newArr);
+		setOnSave(prev => {
+			return { ...prev, characteristics: newArr };
+		});
 	}
-	function deleteImage() {
-		console.log("deleteImage");
-	}
-	function deleteTag() {
-		console.log("deleteTag");
-	}
-	// function deleteRowCharstics(id) {
-	// 	const newArr = charstics.filter(item => {
-	// 		return item.id !== id;
-	// 	});
-	// 	setCharstics(newArr);
-	// 	setOnSave(prev => {
-	// 		return { ...prev, characteristics: newArr };
-	// 	});
-	// }
 	//функция для удаления локально картинок
-	// function deleteImage(data) {
-	// 	const newArr = images.filter(item => {
-	// 		return item !== data;
-	// 	});
-	// 	setImages(newArr);
-	// 	setOnSave(prev => {
-	// 		return { ...prev, images: newArr };
-	// 	});
-	// }
+	function deleteImage(data: string | undefined) {
+		const newArr = images.filter(item => {
+			return item !== data;
+		});
+		setImages(newArr);
+		setOnSave(prev => {
+			return { ...prev, images: newArr };
+		});
+	}
 	//функция для удаления локально тегов
-	// function deleteTag(id) {
-	// 	const newArr = tags.filter(item => {
-	// 		return item.id !== id;
-	// 	});
-	// 	setOnSave(prev => {
-	// 		return { ...prev, tags: newArr };
-	// 	});
-	// }
+	function deleteTag(id: string) {
+		const newArr = tags.filter(item => {
+			return item.id !== id;
+		});
+		setTags(newArr);
+		setOnSave(prev => {
+			return { ...prev, tags: newArr };
+		});
+	}
 
 	//TODO сделать удаление объема
 

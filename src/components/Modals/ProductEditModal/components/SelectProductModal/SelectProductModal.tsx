@@ -11,7 +11,6 @@ export default function SelectProductModal({
 	dataBrands,
 	valueCurrentItem,
 }: ISelectProductModal) {
-	console.log(dataBrands);
 	return (
 		<div className={style["list-block__list-item"]}>
 			<Form.Select

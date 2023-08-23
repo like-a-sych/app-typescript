@@ -6,13 +6,14 @@ import coreStyle from "../../ProductEditModal.module.scss";
 
 interface IImageBlock {
 	labelFields: any;
-	deleteImage?: () => void;
+	deleteImage: (data: string | undefined) => void;
 	images: string[];
 }
 
 function ImageBlock({ labelFields, deleteImage, images }: IImageBlock) {
-	function getIndex(e: React.MouseEventHandler<HTMLButtonElement>) {
-		// deleteImage();
+	function getIndex(e: React.MouseEvent<HTMLElement>) {
+		const data = e.currentTarget.dataset.src;
+		deleteImage(data);
 	}
 	return (
 		<div className={style["image-block"]}>
@@ -37,7 +38,7 @@ function ImageBlock({ labelFields, deleteImage, images }: IImageBlock) {
 									title="button"
 									data-src={item}
 									className={style["image-block__delete"]}
-									// onClick={getIndex}
+									onClick={getIndex}
 									type="button"
 								></button>
 							</Fragment>
