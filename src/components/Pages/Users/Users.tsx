@@ -1,40 +1,22 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useSearch } from "../../../hooks/useSearch";
 import { usePagination } from "../../../hooks/usePagination";
-import UserService from "../../../services/userService";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { fetchLoadUsers } from "../../../store/features/UserSlice";
 
 import SearchInput from "../../UI/TabComponents/components/SearchInput/SearchInput";
 import Pagination from "../../UI/TabComponents/components/Pagination/Pagination";
-import Table from "../../UI/TabComponents/components/Table/Table";
+import TableHead from "../../UI/TabComponents/components/Table/components/TableHead";
+import RowTable from "../../UI/TabComponents/components/Table/components/RowTable";
 
-import style from "./Users.module.scss";
+import style from "../../UI/TabComponents/components/Table/components/TableContainer/TableContainer.module.scss";
 
-import type { TLoadDataFunc } from "../../../interfaces/iUsePagination";
-import type { IUsers } from "../../../interfaces/mocksInterfaces";
 import type { IColumns } from "../../../interfaces/columns";
-import type { TSearchDataFunc } from "../../../interfaces/iSearch";
-
-type TLoadData = { data: IUsers[]; dataLength: number };
 
 export default function Users() {
-	const [users, setUsers] = useState<IUsers[]>([]);
-	const [lengthData, setLengthData] = useState(0);
-
-	const loadUsers: TLoadDataFunc = async (limitView, paginationObj) => {
-		const data: TLoadData = await UserService.getUsers(
-			limitView,
-			paginationObj
-		);
-		setUsers(data.data);
-		setLengthData(data.dataLength);
-	};
-	const searchUsers: TSearchDataFunc = async value => {
-		const data = await UserService.searchUsers(value);
-		setUsers(data);
-	};
-
-	const paginationSetting = usePagination(users, lengthData, loadUsers);
-	const { setSearchValue, clearSearch } = useSearch(setUsers, searchUsers);
+	const dispatch = useAppDispatch();
+	const users = useAppSelector(state => state.users.users);
+	const lastPage = useAppSelector(state => state.users.lastPage);
 	//конфиг для отображения полей в таблице. В объект помещаем name для thead,а в selector функцию в которую передается массив объектов строки и возвращает value указанных ключей
 	const columns: IColumns[] = [
 		{
@@ -52,30 +34,53 @@ export default function Users() {
 			selector: row => row.phone,
 		},
 	];
+	const { pagination, limitRows, handleLimitChange, handleChangePage } =
+		usePagination({ lastPage });
+	const { setSearchValue, clearSearch, debouncedSearchTerm } = useSearch();
+	useEffect(() => {
+		dispatch(
+			fetchLoadUsers({
+				limitRowsOnPage: limitRows,
+				paginationObj: pagination,
+				searchString: debouncedSearchTerm,
+			})
+		);
+	}, [dispatch, limitRows, pagination, debouncedSearchTerm]);
 
-	if (users.length > 0) {
-		return (
-			<>
-				<div className={style["table-block__header"]}>
-					<SearchInput
-						clearSearch={clearSearch}
-						setSearchValue={setSearchValue}
-					/>
-					<Pagination paginationSetting={paginationSetting} />
-				</div>
-				<div className={style["table-block__content"]}>
-					<Table
-						hasCheckbox={false}
-						columns={columns}
-						idModal={""}
-						data={users}
-					/>
-				</div>
-			</>
-		);
-	} else {
-		return (
-			<div className={style["errorText"]}>Здесь пока нет пользователей</div>
-		);
-	}
+	return (
+		<>
+			<div className={style["table-block__header"]}>
+				<SearchInput
+					clearSearch={clearSearch}
+					setSearchValue={setSearchValue}
+				/>
+				<Pagination
+					lastPage={lastPage}
+					pagination={pagination}
+					handleLimitChange={handleLimitChange}
+					handleChangePage={handleChangePage}
+				/>
+			</div>
+			<div className={style["table-block__content"]}>
+				{users.length > 0 ? (
+					<table className={style["content-sales-table"]}>
+						<TableHead theadList={columns.map(i => i.name)} />
+						<tbody className={style["content-sales-table__body"]}>
+							{users.map((item: any, index) => {
+								return (
+									<RowTable
+										key={`id-${index}${Math.random()}`}
+										dataRow={item}
+										columns={columns}
+									/>
+								);
+							})}
+						</tbody>
+					</table>
+				) : (
+					<div className={style["errorText"]}>Здесь пока нет пользователей</div>
+				)}
+			</div>
+		</>
+	);
 }

@@ -1,20 +1,24 @@
 import style from "../Checkbox.module.scss";
 
 interface IRowCheckbox {
-	isChecked: boolean;
-	clickCheckbox: () => void;
+	isChecked: boolean | undefined;
+	checkboxHandler: (id: string) => void | undefined;
 	id: string;
-}
-
-function stopProp(e: React.MouseEvent) {
-	e.stopPropagation();
 }
 
 export default function RowCheckbox({
 	isChecked,
-	clickCheckbox,
+	checkboxHandler,
 	id,
 }: IRowCheckbox): JSX.Element {
+	function stopProp(e: React.MouseEvent) {
+		e.stopPropagation();
+	}
+
+	function clickCheckbox() {
+		checkboxHandler(id);
+	}
+
 	return (
 		<td onClick={stopProp}>
 			<div className={style["content-sales-table__wrapper"]}>

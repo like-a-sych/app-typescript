@@ -19,39 +19,40 @@ export default function Table({
 	idModal,
 }: ITableProps): JSX.Element {
 	return (
-		<>
-			<table className={style["content-sales-table"]}>
-				<TableHead
-					hasCheckbox={hasCheckbox}
-					allClick={allClick}
-					isChecked={isAllChecked}
-					theadList={columns.map(i => i.name)}
-				/>
-				<tbody className={style["content-sales-table__body"]}>
-					{products.map((item: any, index) => {
-						const isChecked = checkedItemsArray.includes(item.id);
-						return (
-							<RowTable
-								hasCheckbox={hasCheckbox}
-								key={`id-${index}${Math.random()}`}
-								dataRow={item}
-								columns={columns}
-								checkboxHandler={checkboxHandler}
-								isChecked={isChecked}
-								idModal={idModal}
-							/>
-						);
-					})}
-				</tbody>
-			</table>
-			{openPopup && (
-				<PopUp
-					openPopup={openPopup}
-					PopUpToggle={PopUpToggle}
-					checkedItemsArray={checkedItemsArray}
-					deleteCellTable={deleteCellTable}
-				></PopUp>
-			)}
-		</>
+		<></>
+		// <>
+		// 	<table className={style["content-sales-table"]}>
+		// 		<TableHead
+		// 			hasCheckbox={hasCheckbox}
+		// 			allClick={allClick}
+		// 			isChecked={isAllChecked}
+		// 			theadList={columns.map(i => i.name)}
+		// 		/>
+		// 		<tbody className={style["content-sales-table__body"]}>
+		// 			{products.map((item: any, index) => {
+		// 				const isChecked = checkedItemsArray.includes(item.id);
+		// 				return (
+		// 					<RowTable
+		// 						hasCheckbox={hasCheckbox}
+		// 						key={`id-${index}${Math.random()}`}
+		// 						dataRow={item}
+		// 						columns={columns}
+		// 						checkboxHandler={checkboxHandler}
+		// 						isChecked={isChecked}
+		// 						idModal={idModal}
+		// 					/>
+		// 				);
+		// 			})}
+		// 		</tbody>
+		// 	</table>
+		// 	{openPopup && (
+		// 		<PopUp
+		// 			openPopup={openPopup}
+		// 			PopUpToggle={PopUpToggle}
+		// 			checkedItemsArray={checkedItemsArray}
+		// 			deleteCellTable={deleteCellTable}
+		// 		></PopUp>
+		// 	)}
+		// </>
 	);
 }

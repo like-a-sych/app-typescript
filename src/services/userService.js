@@ -1,5 +1,6 @@
 import { usersMockData } from "../constants/mocks/usersMockData";
 
+const lengthData = usersMockData.length;
 class UserService {
 	static instance;
 	static getInstance() {
@@ -9,16 +10,25 @@ class UserService {
 		return UserService.instance;
 	}
 
-	async getUsers(limitView, paginationObj) {
-		console.info("[UserService:getUsers]", { limitView, paginationObj });
-		const dataLength = 1000;
-		const data = usersMockData.splice(paginationObj, limitView);
-		return { data, dataLength };
-	}
-
-	async searchUsers(string) {
-		console.info("[ProductService:searchProduct]", { string });
-		return usersMockData;
+	async getUsers(limitView = 10, pagination = 1, searchString) {
+		console.info("[UserService:getUsers]", {
+			limitView,
+			pagination,
+			searchString,
+		});
+		function getLastPage(length) {
+			return Math.ceil(length / limitView);
+		}
+		if (searchString) {
+			const filteredData = usersMockData;
+			return {
+				data: filteredData,
+				lengthData: filteredData.length,
+				lastPage: getLastPage(filteredData.length),
+			};
+		}
+		const data = usersMockData.splice(pagination, limitView);
+		return { data, lengthData, lastPage: getLastPage(lengthData) };
 	}
 
 	/// .... остальной функционал необходимый для работы с сущностью пользователь

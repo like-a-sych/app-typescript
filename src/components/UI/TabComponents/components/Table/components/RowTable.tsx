@@ -1,21 +1,18 @@
 import { memo, useCallback } from "react";
-
+import { useDispatch } from "react-redux";
+import { setModalState } from "../../../../../../store/features/ModalSlice";
 import RowCheckbox from "./RowCheckbox/RowCheckbox";
 
 import style from "../Table.module.scss";
 
 import type { IColumns } from "../../../../../../interfaces/columns";
-import { useDispatch } from "react-redux";
-import { setModalState } from "../../../../../../store/features/ModalSlice";
-import { setProducts } from "../../../../../../store/features/ProductSlice";
 
 interface IRowTable {
 	dataRow: any;
-	checkboxHandler: (id: string) => void;
-	isChecked: boolean;
-	idModal: string;
+	checkboxHandler?: (id: string) => void | undefined;
+	isChecked?: boolean | undefined;
+	idModal?: string | null;
 	columns: IColumns[];
-	hasCheckbox: boolean;
 }
 
 function RowTable({
@@ -24,7 +21,6 @@ function RowTable({
 	isChecked,
 	idModal,
 	columns,
-	hasCheckbox,
 }: IRowTable): JSX.Element {
 	const rowData: string[] = columns.map(element => element.selector(dataRow));
 	console.log();
@@ -41,20 +37,16 @@ function RowTable({
 		);
 	}, [dispatch]);
 
-	function clickCheckbox() {
-		checkboxHandler(dataRow.id);
-	}
-
 	return (
 		<tr
 			className={isChecked ? style["_active"] : undefined}
 			onClick={openModalHandler}
 		>
-			{hasCheckbox && (
+			{checkboxHandler && (
 				<RowCheckbox
 					isChecked={isChecked}
 					id={dataRow.id}
-					clickCheckbox={clickCheckbox}
+					checkboxHandler={checkboxHandler}
 				/>
 			)}
 			{rowData.map((el, index) => {

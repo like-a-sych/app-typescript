@@ -76,7 +76,6 @@ export default function Products(): JSX.Element {
 					<>
 						<table className={style["content-sales-table"]}>
 							<TableHead
-								hasCheckbox={true}
 								allClick={allClick}
 								isChecked={isAllChecked}
 								theadList={columns.map(i => i.name)}
@@ -86,7 +85,6 @@ export default function Products(): JSX.Element {
 									const isChecked = checkedItemsArray.includes(item.id);
 									return (
 										<RowTable
-											hasCheckbox={true}
 											key={`id-${index}${Math.random()}`}
 											dataRow={item}
 											columns={columns}

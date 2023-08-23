@@ -1,8 +1,8 @@
 import style from "../Checkbox.module.scss";
 
 interface ITheadCheckbox {
-	isChecked: boolean;
-	allClick: () => void;
+	isChecked: boolean | undefined;
+	allClick: () => void | undefined;
 }
 
 export default function TheadCheckbox({
