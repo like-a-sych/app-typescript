@@ -1,26 +1,41 @@
 import { productsMockData } from "../constants/mocks/productsMockData";
 
+const lengthData = productsMockData.length;
+
 class ProductService {
-  static instance;
-  static getInstance() {
-    if (!ProductService.instance) {
-      ProductService.instance = new ProductService();
-    }
-    return ProductService.instance;
-  }
+	static instance;
+	static getInstance() {
+		if (!ProductService.instance) {
+			ProductService.instance = new ProductService();
+		}
+		return ProductService.instance;
+	}
 
-  async getProduct(limitView = 10, paginationObj = 1) {
-    console.info("[ProductService:getProduct]", { limitView, paginationObj });
-    const dataLength = 490;
-    const data = productsMockData.splice(paginationObj, limitView);
-    return { data, dataLength };
-  }
+	async getProduct(limitView = 10, paginationObj = 1, searchString) {
+		console.info("[ProductService:getProduct]", {
+			limitView,
+			paginationObj,
+			searchString,
+		});
 
-  async searchProduct(string) {
-    console.info("[ProductService:searchProduct]", { string });
-    return productsMockData;
-  }
+		function getLastPage(length) {
+			return Math.ceil(length / limitView);
+		}
 
-  /// .... остальной функционал необходимый для работы с сущностью пользователь
+		if (searchString) {
+			const filteredData = productsMockData.filter(item => {
+				if (item.nameFrom1C.includes(searchString)) {
+					return item;
+				}
+			});
+			return {
+				data: filteredData,
+				lengthData: filteredData.length,
+				lastPage: getLastPage(filteredData.length),
+			};
+		}
+		const data = productsMockData.splice(paginationObj, limitView);
+		return { data, lengthData, lastPage: getLastPage(lengthData) };
+	}
 }
 export default ProductService.getInstance();

@@ -1,24 +1,26 @@
-import { useContext, useState } from "react";
-import { MainContext } from "../../../context";
-import ProductService from "../../../services/productService";
+import { useEffect } from "react";
 import { useSearch } from "../../../hooks/useSearch";
 import { usePagination } from "../../../hooks/usePagination";
+import { useTableCheckbox } from "../../../hooks/useTableCheckbox";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { fetchLoadProducts } from "../../../store/features/ProductSlice";
 
 import Pagination from "../../UI/TabComponents/components/Pagination/Pagination";
-import Table from "../../UI/TabComponents/components/Table/Table";
 import SearchInput from "../../UI/TabComponents/components/SearchInput/SearchInput";
+import TableHead from "../../UI/TabComponents/components/Table/components/TableHead";
+import RowTable from "../../UI/TabComponents/components/Table/components/RowTable";
+import PopUp from "../../Modals/PopUp/PopUp";
 
 import style from "../../UI/TabComponents/components/Table/components/TableContainer/TableContainer.module.scss";
 
 import type { IColumns } from "../../../interfaces/columns";
-import type { IProductsData } from "../../../interfaces/mocksInterfaces";
-import type { TLoadDataFunc } from "../../../interfaces/iUsePagination";
-import type { TSearchDataFunc } from "../../../interfaces/iSearch";
-
-type TLoadData = { data: IProductsData[]; dataLength: number };
+import type { IProduct } from "../../../interfaces/mocksInterfaces";
 
 export default function Products(): JSX.Element {
-	const { setModalState } = useContext(MainContext);
+	const dispatch = useAppDispatch();
+	const products = useAppSelector(state => state.products.products);
+	const lastPage = useAppSelector(state => state.products.lastPage);
+	const modal = useAppSelector(state => state.products.modalId);
 
 	const columns: IColumns[] = [
 		{
@@ -31,56 +33,84 @@ export default function Products(): JSX.Element {
 		},
 	];
 
-	const [products, setProducts] = useState<IProductsData[]>([]);
+	const { pagination, limitRows, handleLimitChange, handleChangePage } =
+		usePagination({ lastPage });
 
-	//моковая длина массива для вычисления lastPagePagination
-	const [lengthData, setLengthData] = useState(0);
+	const { setSearchValue, clearSearch, debouncedSearchTerm } = useSearch();
+	const {
+		allClick,
+		isAllChecked,
+		checkboxHandler,
+		deleteCellTable,
+		checkedItemsArray,
+		openPopup,
+		PopUpToggle,
+	} = useTableCheckbox(products);
 
-	const loadProducts: TLoadDataFunc = async (
-		limitRowsOnPage,
-		paginationObj
-	) => {
-		const data: TLoadData = await ProductService.getProduct(
-			limitRowsOnPage,
-			paginationObj
+	useEffect(() => {
+		dispatch(
+			fetchLoadProducts({
+				limitRowsOnPage: limitRows,
+				paginationObj: pagination,
+				searchString: debouncedSearchTerm,
+			})
 		);
-		setProducts(data.data);
-		setLengthData(data.dataLength);
-	};
-	const searchProducts: TSearchDataFunc = async value => {
-		const data = await ProductService.searchProduct(value);
-		setProducts(data);
-	};
+	}, [dispatch, limitRows, pagination, debouncedSearchTerm]);
 
-	const paginationSetting = usePagination(products, lengthData, loadProducts);
-
-	const { setSearchValue, clearSearch } = useSearch(
-		setProducts,
-		searchProducts
+	return (
+		<>
+			<div className={style["table-block__header"]}>
+				<SearchInput
+					clearSearch={clearSearch}
+					setSearchValue={setSearchValue}
+				/>
+				<Pagination
+					lastPage={lastPage}
+					pagination={pagination}
+					handleLimitChange={handleLimitChange}
+					handleChangePage={handleChangePage}
+				/>
+			</div>
+			<div className={style["table-block__content"]}>
+				{products.length > 0 ? (
+					<>
+						<table className={style["content-sales-table"]}>
+							<TableHead
+								hasCheckbox={true}
+								allClick={allClick}
+								isChecked={isAllChecked}
+								theadList={columns.map(i => i.name)}
+							/>
+							<tbody className={style["content-sales-table__body"]}>
+								{products.map((item: IProduct, index) => {
+									const isChecked = checkedItemsArray.includes(item.id);
+									return (
+										<RowTable
+											hasCheckbox={true}
+											key={`id-${index}${Math.random()}`}
+											dataRow={item}
+											columns={columns}
+											checkboxHandler={checkboxHandler}
+											isChecked={isChecked}
+											idModal={modal}
+										/>
+									);
+								})}
+							</tbody>
+						</table>
+						{openPopup && (
+							<PopUp
+								openPopup={openPopup}
+								PopUpToggle={PopUpToggle}
+								checkedItemsArray={checkedItemsArray}
+								deleteCellTable={deleteCellTable}
+							></PopUp>
+						)}
+					</>
+				) : (
+					<div className="errorText">Здесь пока нет товаров</div>
+				)}
+			</div>
+		</>
 	);
-
-	if (products.length > 0) {
-		return (
-			<>
-				<div className={style["table-block__header"]}>
-					<SearchInput
-						clearSearch={clearSearch}
-						setSearchValue={setSearchValue}
-					/>
-					<Pagination paginationSetting={paginationSetting} />
-				</div>
-				<div className={style["table-block__content"]}>
-					<Table
-						columns={columns}
-						data={products}
-						hasCheckbox={true}
-						idModal="purchaseEdit"
-						setModalState={setModalState}
-					/>
-				</div>
-			</>
-		);
-	} else {
-		return <div className="errorText">Здесь пока нет товаров</div>;
-	}
 }

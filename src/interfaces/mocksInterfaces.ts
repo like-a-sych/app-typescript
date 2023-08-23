@@ -1,4 +1,4 @@
-export interface IProductsData {
+export interface IProduct {
     id: string;
     name: string;
     nameFrom1C: string;
@@ -15,6 +15,20 @@ export interface IProductsData {
     images: string[];
     category: string;
     subcategory: string;
+		characteristics:{
+			id: string;
+			key: string;
+			value: string;
+		}[];
+		tags: {
+			id: string;
+			name: string;
+		}[]
+		variations?: {
+			id: string;
+			code: string;
+			value: string;
+		}[]
 }
 
 export interface IUsers {

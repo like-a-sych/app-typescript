@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import style from "./SearchInput.module.scss";
 
 interface ISearchInputProps {
@@ -9,18 +10,29 @@ export default function SearchInput({
 	clearSearch,
 	setSearchValue,
 }: ISearchInputProps): JSX.Element {
+	const handleInput = (event: React.SyntheticEvent<HTMLInputElement>) => {
+		setSearchValue((event.target as HTMLInputElement).value);
+	};
+	const inputRef = useRef<any>(null);
+
+	function handleClick() {
+		inputRef.current.value = "";
+		clearSearch();
+	}
+
 	return (
 		<div className={style["pagination__search"]}>
 			<input
-				onChange={e => setSearchValue(e.target.value)}
+				onChange={handleInput}
 				className={style["search"]}
 				placeholder="Поиск"
+				ref={inputRef}
 			></input>
 			<button
 				title="clear search"
 				type="button"
 				className={style["delete"]}
-				onClick={clearSearch}
+				onClick={handleClick}
 			></button>
 		</div>
 	);

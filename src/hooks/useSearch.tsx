@@ -1,31 +1,24 @@
 import { useState, useEffect } from "react";
 
 import useDebounce from "./useDebounce";
-import { TSearchDataFunc } from "../interfaces/iSearch";
 
-export function useSearch(
-	setData: (value: any[]) => void,
-	searchData: TSearchDataFunc
-) {
+export function useSearch() {
 	// Состояние и сеттер состояния для поискового запроса
 	const [searchValue, setSearchValue] = useState("");
 
 	const debouncedSearchTerm = useDebounce(searchValue, 500);
-	//!============================================
 
 	function searchingHandler(searchingValue: string) {
 		const value = searchingValue.toLowerCase().trim();
-		searchData(value);
+		setSearchValue(value);
 	}
 
 	function clearSearch() {
 		if (searchValue !== "") {
-			setData([]);
-			searchData("");
+			setSearchValue("");
 		}
 	}
 
-	//?===================================================
 	useEffect(() => {
 		// Убедиться что у нас есть значение (пользователь ввел что-то)
 		if (debouncedSearchTerm.length > 0) {
@@ -34,9 +27,9 @@ export function useSearch(
 			clearSearch();
 		}
 	}, [debouncedSearchTerm]);
-	//?===================================================
 
 	return {
+		debouncedSearchTerm,
 		setSearchValue,
 		clearSearch,
 	};

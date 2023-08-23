@@ -5,38 +5,19 @@ import PopUp from "../../../../Modals/PopUp/PopUp";
 
 import style from "./Table.module.scss";
 import type { IColumns } from "../../../../../interfaces/columns";
+import { useAppSelector } from "../../../../../store/hooks";
 
 interface ITableProps {
 	columns: IColumns[];
 	hasCheckbox: boolean;
-	data: unknown[];
-	setModalState?: React.Dispatch<
-		React.SetStateAction<{
-			idModal: string;
-			dataRow: {};
-			isOpen: boolean;
-			data: {};
-		}>
-	>;
 	idModal: string;
 }
 
 export default function Table({
 	columns,
 	hasCheckbox,
-	data,
-	setModalState,
 	idModal,
 }: ITableProps): JSX.Element {
-	const {
-		allClick,
-		isAllChecked,
-		checkboxHandler,
-		deleteCellTable,
-		checkedItemsArray,
-		openPopup,
-		PopUpToggle,
-	} = useTableCheckbox(data);
 	return (
 		<>
 			<table className={style["content-sales-table"]}>
@@ -47,7 +28,7 @@ export default function Table({
 					theadList={columns.map(i => i.name)}
 				/>
 				<tbody className={style["content-sales-table__body"]}>
-					{data.map((item: any, index) => {
+					{products.map((item: any, index) => {
 						const isChecked = checkedItemsArray.includes(item.id);
 						return (
 							<RowTable
@@ -55,11 +36,9 @@ export default function Table({
 								key={`id-${index}${Math.random()}`}
 								dataRow={item}
 								columns={columns}
-								setModalState={setModalState}
 								checkboxHandler={checkboxHandler}
 								isChecked={isChecked}
 								idModal={idModal}
-								data={data}
 							/>
 						);
 					})}

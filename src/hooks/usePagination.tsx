@@ -1,51 +1,38 @@
-import { useEffect, useState } from "react";
-import { visibleCells } from "../constants/visibleCells";
-import type { TLoadDataFunc } from "../interfaces/iUsePagination";
+import { useState } from "react";
 
-export function usePagination(
-	data: unknown[],
-	lengthData: number,
-	loadData: TLoadDataFunc
-) {
-	const [lastPagePagination, setLastPagePagination] = useState(1);
+interface IUsePagination {
+	lastPage: number;
+}
+
+export function usePagination({ lastPage }: IUsePagination) {
 	const [pagination, setPagination] = useState(1);
-	const [limitRows, setLimitRows] = useState(visibleCells[0]);
+	const [limitRows, setLimitRows] = useState(10);
 
-	const handlePaginationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+	const handleLimitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const value = +e.target.value;
 		setLimitRows(value);
 		setPagination(1);
-		loadData(value, 1);
 	};
-	const handleChangePageNext = () => {
-		if (pagination < Math.ceil(lengthData / data.length)) {
-			setPagination(prev => prev + 1);
-			loadData(limitRows, pagination + 1);
-		}
-	};
-	const handleChangePagePrev = () => {
-		if (pagination > 1) {
-			setPagination(prev => prev - 1);
-			loadData(limitRows, pagination - 1);
-		}
-	};
-	useEffect(() => {
-		loadData(limitRows, pagination);
-	}, []);
 
-	useEffect(() => {
-		if (Array.isArray(data)) {
-			data.length > 0 &&
-				setLastPagePagination(
-					Math.ceil(lengthData / data.length) // переменная для вычисления последней страницы на основе отображаемого контента на странице
-				);
+	function handleChangePage(e: React.MouseEvent<HTMLElement>) {
+		switch (e.currentTarget.dataset.page) {
+			case "-":
+				if (pagination > 1) {
+					setPagination(prev => prev - 1);
+				}
+				break;
+			case "+":
+				if (pagination < lastPage) {
+					setPagination(prev => prev + 1);
+				}
+				break;
 		}
-	}, [data, lengthData]);
+	}
+
 	return {
 		pagination,
-		handlePaginationChange,
-		handleChangePagePrev,
-		handleChangePageNext,
-		lastPagePagination,
+		limitRows,
+		handleLimitChange,
+		handleChangePage,
 	};
 }

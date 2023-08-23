@@ -7,7 +7,7 @@ import Login from "../Public/Login";
 import Register from "../Public/Register";
 import Layout from "../Layout";
 import Products from "../Pages/Products/Products";
-import Users from "../Pages/Users/Users";
+// import Users from "../Pages/Users/Users";
 // import Cities from "../Pages/Cities/Cities";
 // import Category from "../Pages/Category/Category";
 // import Brands from "../Pages/Brands/Brands";
@@ -35,7 +35,7 @@ export default function Router() {
 					element={<Layout handleLogout={authData.handleLogout} />}
 				>
 					<Route path={pathNames.products} element={<Products />} />
-					<Route path={pathNames.users} element={<Users />} />
+					{/* <Route path={pathNames.users} element={<Users />} /> */}
 					{/*<Route path={pathNames.category} element={<Category />} />*/}
 					{/*<Route path={pathNames.cities} element={<Cities />} />*/}
 					{/*<Route path={pathNames.brands} element={<Brands />} />*/}

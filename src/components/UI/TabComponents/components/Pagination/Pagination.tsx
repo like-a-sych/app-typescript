@@ -5,23 +5,17 @@ import SelectOptions from "./SelectOptions";
 import style from "./Pagination.module.scss";
 
 interface IPaginationProps {
-	paginationSetting: {
-		pagination: number;
-		handlePaginationChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-		handleChangePagePrev: () => void;
-		handleChangePageNext: () => void;
-		lastPagePagination: number;
-	};
+	pagination: number;
+	handleLimitChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+	lastPage: number;
+	handleChangePage: any;
 }
 
 export default function Pagination({
-	paginationSetting: {
-		pagination,
-		handleChangePageNext,
-		handleChangePagePrev,
-		lastPagePagination,
-		handlePaginationChange,
-	},
+	pagination,
+	handleChangePage,
+	lastPage,
+	handleLimitChange,
 }: IPaginationProps): JSX.Element {
 	return (
 		<div className={style["pagination"]}>
@@ -31,7 +25,7 @@ export default function Pagination({
 					<select
 						title="pagination counter"
 						className={style["pagination__show"]}
-						onChange={handlePaginationChange}
+						onChange={handleLimitChange}
 					>
 						{visibleCells.map(item => (
 							<SelectOptions key={item} value={item} />
@@ -46,19 +40,19 @@ export default function Pagination({
 							{pagination}
 						</span>
 						из
-						<span className={style["pagination__page_all"]}>
-							{lastPagePagination}
-						</span>
+						<span className={style["pagination__page_all"]}>{lastPage}</span>
 					</div>
 				</div>
 				<div className={style["pagination__arrows"]}>
 					<div
 						className={style["pagination__prev"]}
-						onClick={handleChangePagePrev}
+						onClick={handleChangePage}
+						data-page="-"
 					></div>
 					<div
 						className={style["pagination__next"]}
-						onClick={handleChangePageNext}
+						onClick={handleChangePage}
+						data-page="+"
 					></div>
 				</div>
 			</div>
