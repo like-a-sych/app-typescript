@@ -1,9 +1,9 @@
 import style from "../Checkbox.module.scss";
 
 interface IRowCheckbox {
-	isChecked: boolean | undefined;
-	checkboxHandler: (id: string) => void | undefined;
 	id: string;
+	isChecked?: boolean;
+	checkboxHandler?: (id: string) => void;
 }
 
 export default function RowCheckbox({
@@ -16,7 +16,7 @@ export default function RowCheckbox({
 	}
 
 	function clickCheckbox() {
-		checkboxHandler(id);
+		checkboxHandler && checkboxHandler(id);
 	}
 
 	return (

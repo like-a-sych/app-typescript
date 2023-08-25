@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import { catalogMockData } from "../../../constants/mocks/catalogMockData";
 import { subCatalogMockData } from "../../../constants/mocks/subCatalogMockData";
+import { useAppSelector } from "../../../store/hooks";
 
 import ButtonBlock from "./components/ButtonBlock/ButtonBlock";
 import InnerContentTable from "./components/InnerContentTable/InnerContentTable";
 
-import "./Category.scss";
+import style from "./Category.module.scss";
 
 export default function Category() {
-	const [position, setPosition] = useState(null);
-	const [subData, setSubData] = useState([]);
+	const catalogs = useAppSelector(state => state.catalogs.catalogs);
 
-	function selectCategory(position) {
+	const [position, setPosition] = useState<number | null>(null);
+	const [subData, setSubData] = useState(catalogs.subCatalog);
+
+	function selectCategory(position: number) {
 		setPosition(position);
 	}
 
@@ -20,9 +23,9 @@ export default function Category() {
 	}, [position]);
 
 	return (
-		<div className="category">
-			<div className="category__container">
-				<div className="category__table table">
+		<div className={style["category"]}>
+			<div className={style["category__container"]}>
+				<div className={style["category__table table"]}>
 					<ButtonBlock
 						text={"Добавить категорию"}
 						placeholder={"Введите название категории"}
@@ -30,7 +33,7 @@ export default function Category() {
 					<InnerContentTable data={catalogMockData} callback={selectCategory} />
 				</div>
 				{subData.length > 0 ? (
-					<div className="category__table table">
+					<div className={style["category__table table"]}>
 						<ButtonBlock
 							text={"Добавить подкатегорию"}
 							placeholder={"Введите название подкатегории"}

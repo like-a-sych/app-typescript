@@ -9,10 +9,10 @@ import type { IColumns } from "../../../../../../interfaces/columns";
 
 interface IRowTable {
 	dataRow: any;
-	checkboxHandler?: (id: string) => void | undefined;
-	isChecked?: boolean | undefined;
-	idModal?: string | null;
 	columns: IColumns[];
+	checkboxHandler?: (id: string) => void;
+	isChecked?: boolean;
+	idModal?: string | null;
 }
 
 function RowTable({

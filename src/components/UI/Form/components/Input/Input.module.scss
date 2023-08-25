@@ -2,6 +2,7 @@
 	&__form-item {
 		display: flex;
 		flex-direction: column;
+		position: relative;
 		&:not(:first-child) {
 			position: relative;
 		}
@@ -12,7 +13,7 @@
 		height: 30px;
 		background: no-repeat center/16px url("../../../../../img/eye.svg");
 		right: 6px;
-		bottom: 6px;
+		bottom: 3px;
 		margin: auto;
 		cursor: pointer;
 		display: block;

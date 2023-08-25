@@ -30,7 +30,5 @@ class UserService {
 		const data = usersMockData.splice(pagination, limitView);
 		return { data, lengthData, lastPage: getLastPage(lengthData) };
 	}
-
-	/// .... остальной функционал необходимый для работы с сущностью пользователь
 }
 export default UserService.getInstance();

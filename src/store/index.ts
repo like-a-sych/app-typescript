@@ -3,12 +3,17 @@ import { configureStore } from "@reduxjs/toolkit";
 import { modalSlice } from "./features/ModalSlice";
 import { productSlice } from "./features/ProductSlice";
 import { usersSlice } from "./features/UserSlice";
+import { catalogsSlice } from "./features/CatalogSlice";
+import { authSlice } from "./features/AuthSlice";
+
 
 export const store = configureStore({
 	reducer: {
 		modal: modalSlice.reducer,
 		products: productSlice.reducer,
-		users: usersSlice.reducer
+		users: usersSlice.reducer,
+		catalogs: catalogsSlice.reducer,
+		auth: authSlice.reducer
 	},
 	
 });
