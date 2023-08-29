@@ -54,3 +54,9 @@ export interface ISubCatalog {
 			id: string;
 	}
 }
+export interface IBrands {
+	id: string;
+	name: string;
+	icon: string;
+	margin: number;
+}

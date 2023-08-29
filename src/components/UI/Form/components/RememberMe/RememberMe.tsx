@@ -1,14 +1,16 @@
-import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
+import { useAppDispatch } from "../../../../../store/hooks";
+import { setRemember } from "../../../../../store/features/AuthSlice";
 import style from "./RememberMe.module.scss";
 
 interface IRememberMe {
 	remember: boolean;
-	setRemember: ActionCreatorWithPayload<any, string>;
 }
 
-export default function RememberMe({ remember, setRemember }: IRememberMe) {
+export default function RememberMe({ remember }: IRememberMe) {
+	const dispatch = useAppDispatch();
+
 	const change = () => {
-		setRemember(!remember);
+		dispatch(setRemember(!remember));
 	};
 	return (
 		<div className={style.formCheck}>

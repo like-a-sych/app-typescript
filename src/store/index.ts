@@ -5,6 +5,7 @@ import { productSlice } from "./features/ProductSlice";
 import { usersSlice } from "./features/UserSlice";
 import { catalogsSlice } from "./features/CatalogSlice";
 import { authSlice } from "./features/AuthSlice";
+import { brandsSlice } from "./features/BrandSlice";
 
 
 export const store = configureStore({
@@ -13,7 +14,8 @@ export const store = configureStore({
 		products: productSlice.reducer,
 		users: usersSlice.reducer,
 		catalogs: catalogsSlice.reducer,
-		auth: authSlice.reducer
+		auth: authSlice.reducer,
+		brand: brandsSlice.reducer
 	},
 	
 });

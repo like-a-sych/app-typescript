@@ -1,5 +1,5 @@
-import { Field, FieldProps, Formik } from "formik";
-import TextField from "./Input";
+import { Field, FieldProps } from "formik";
+import Input from "./Input";
 // import "./FormField.scss";
 
 interface IFormField {
@@ -28,7 +28,7 @@ const FormField = (props: IFormField) => {
 	} = props;
 	const renderInputComponent = ({ field, form }: FieldProps) => {
 		const error = (form && form.errors && form.errors[field.name]) || false;
-		const Component = inputProps.component ? inputProps.component : TextField;
+		const Component = inputProps.component ? inputProps.component : Input;
 
 		const handleChange = (e: React.ChangeEvent, val: string) => {
 			// @ts-ignore
@@ -51,6 +51,7 @@ const FormField = (props: IFormField) => {
 					error={Boolean(error)}
 					helperText={error || defaultHelperText}
 					className={["FormField-input", className].join(" ")}
+					name={name}
 				/>
 			</>
 		);

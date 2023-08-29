@@ -23,7 +23,6 @@ export default function Input({
 	onChange,
 	placeholder,
 	helperText,
-	error,
 }: IInput) {
 	const [inputType, setInputType] = useState(fieldType);
 
@@ -35,32 +34,33 @@ export default function Input({
 		}
 	}
 	return (
-		<div className={style["mainForm__form-item"]}>
-			{hasLabel && (
-				<label htmlFor={id} className={style.mainForm__label}>
-					{labelText}
-				</label>
-			)}
-			<input
-				id={id}
-				name={name}
-				className="input"
-				onChange={onChange}
-				type={inputType}
-				placeholder={placeholder}
-				aria-label="input field"
-			/>
-			{helperText}
+		<>
+			<div className={style["mainForm__form-item"]}>
+				{hasLabel && (
+					<label htmlFor={id} className={style.mainForm__label}>
+						{labelText}
+					</label>
+				)}
+				<input
+					id={id}
+					name={name}
+					className="input"
+					onChange={onChange}
+					type={inputType}
+					placeholder={placeholder}
+					aria-label="input field"
+				/>
 
-			{fieldType === "password" && (
-				<button
-					title="show password"
-					type="button"
-					onClick={showPassword}
-					className={style.mainForm__show}
-				></button>
-			)}
-			{error}
-		</div>
+				{fieldType === "password" && (
+					<button
+						title="show password"
+						type="button"
+						onClick={showPassword}
+						className={style.mainForm__show}
+					></button>
+				)}
+			</div>
+			<div className="error">{helperText}</div>
+		</>
 	);
 }

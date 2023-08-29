@@ -1,43 +1,63 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import {
+	fetchAuthentication,
+	setUserData,
+} from "../../store/features/AuthSlice";
 import { pathNames } from "../../constants/path";
-import { IAuthData } from "../../interfaces/authData";
+import { validationSchema } from "../../constants/validationSchema";
 
 import Button from "../UI/Form/components/Button/Button";
 import RememberMe from "../UI/Form/components/RememberMe/RememberMe";
 import FormField from "../UI/Form/components/Input/FormField";
 
 import style from "./FormLayout.module.scss";
-import { fetchAuthentication } from "../../store/features/AuthSlice";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-interface ILogin {
-	authData: IAuthData;
-}
-
-// const SignupSchema = Yup.object().shape({
-// 	firstName: Yup.string()
-// 		.min(2, "Too Short!")
-// 		.max(50, "Too Long!")
-// 		.required("Required"),
-// 	lastName: Yup.string()
-// 		.min(2, "Too Short!")
-// 		.max(50, "Too Long!")
-// 		.required("Required"),
-// 	email: Yup.string().email("Invalid email").required("Required"),
-// });
-
-const validationSchema = Yup.object().shape({
-	email: Yup.string().required("Обязательное поле").email("Неверный email"),
-	password: Yup.string().required("Обязательное поле"),
-});
-
-export default function Login({ authData }: ILogin) {
+export default function Login() {
 	const dispatch = useAppDispatch();
 	const userData = useAppSelector(state => state.auth.userData);
-	console.log(userData);
+	const rememberMe = useAppSelector(state => state.auth.rememberMe);
+	const errorMessage = useAppSelector(state => state.auth.error);
+	const navigate = useNavigate();
 
+	async function handleSubmit({
+		email,
+		password,
+	}: {
+		email: string;
+		password: string;
+	}) {
+		try {
+			dispatch(
+				fetchAuthentication({
+					email,
+					password,
+				})
+			);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+	useEffect(() => {
+		const isAuth = localStorage.getItem("isAuth");
+		if (isAuth) {
+			dispatch(setUserData(isAuth));
+		}
+		if (userData) {
+			navigate("/");
+			if (rememberMe) {
+				localStorage.setItem("isAuth", JSON.stringify(userData));
+			}
+		}
+	}, [dispatch, userData, navigate]);
+
+	useEffect(() => {
+		if (userData) {
+			navigate("/");
+		}
+	}, []);
 	return (
 		<>
 			<div className={style.mainForm__header}>
@@ -48,19 +68,7 @@ export default function Login({ authData }: ILogin) {
 					validationSchema={validationSchema}
 					initialValues={{ email: "", password: "" }}
 					validateOnChange={false}
-					onSubmit={({ email, password }, { setSubmitting }) => {
-						try {
-							dispatch(
-								fetchAuthentication({
-									email,
-									password,
-								})
-							);
-							localStorage.setItem("isAuth", JSON.stringify(true));
-						} catch (error) {
-							console.log(error);
-						}
-					}}
+					onSubmit={handleSubmit}
 				>
 					<Form className={style.mainForm__form} noValidate>
 						<div className={style["mainForm__form-wrapper"]}>
@@ -81,14 +89,9 @@ export default function Login({ authData }: ILogin) {
 								placeholder={"Введите свой пароль"}
 							/>
 						</div>
-						<RememberMe
-							remember={authData.rememberMe}
-							setRemember={authData.setRemember}
-						/>
+						<RememberMe remember={rememberMe} />
 						<div className={style["mainForm__buttons-wrapper"]}>
-							<span className={style.mainForm__error}>
-								{authData.errorMessage}
-							</span>
+							<span className={style.mainForm__error}>{errorMessage}</span>
 							<div className={style.mainForm__button}>
 								<Button typeButton={"submit"} nameButton={"Войти"} />
 							</div>

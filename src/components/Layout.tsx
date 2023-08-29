@@ -3,12 +3,14 @@ import Aside from "./Aside/Aside";
 import AdminButton from "./MainContent/components/AdminButton";
 
 import style from "./Layout.module.scss";
+import { useAppDispatch } from "../store/hooks";
+import { logOut } from "../store/features/AuthSlice";
 
-interface ILayout {
-	handleLogout: () => void;
-}
-
-function Layout({ handleLogout }: ILayout): JSX.Element {
+function Layout(): JSX.Element {
+	const dispatch = useAppDispatch();
+	function handleLogout() {
+		dispatch(logOut());
+	}
 	return (
 		<div className={style.wrapper}>
 			<div className={style.container}>

@@ -1,14 +1,13 @@
 import { createContext } from "react";
-import type {IContext} from "../interfaces/context";
+// import type {IContext} from "../interfaces/context";
 
-export const defaultContext: IContext = {
+export const defaultContext: any = {
 	modalState: {
 		idModal: "",
 		dataRow: {},
 		isOpen: false,
 		data: {},
-	}}
+	},
+};
 
-
-
-export const MainContext = createContext<IContext>(defaultContext);
+export const MainContext = createContext<any>(defaultContext);

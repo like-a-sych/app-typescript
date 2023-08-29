@@ -5,8 +5,12 @@ import FormInputFile from "./components/FormInputFile/FormInputFile";
 import style from "./Brands.module.scss";
 import TableBrands from "./components/TableBrands/TableBrands";
 
+export interface IColumnBrand {
+	selector: (row: any) => string;
+}
+
 export default function Brands() {
-	const columns = [
+	const columns: IColumnBrand[] = [
 		{
 			selector: row => row.icon,
 		},
@@ -17,12 +21,9 @@ export default function Brands() {
 
 	return (
 		<div className={style["brands-page"]}>
-			<FormInputFile
-				placeholder="Введите название бренда"
-				buttonText="Добавить бренд"
-			/>
+			<FormInputFile />
 			<div className={style["table-block"]}>
-				<TableBrands data={brandsMockData} columns={columns} />
+				<TableBrands columns={columns} />
 			</div>
 		</div>
 	);

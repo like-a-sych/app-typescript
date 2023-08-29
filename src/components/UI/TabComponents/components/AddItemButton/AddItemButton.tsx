@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { MainContext } from "../../../../../context";
+// import { MainContext } from "../../../../../context";
 import style from "./AddItemButton.module.scss";
 
 interface iAddItem {
@@ -7,7 +7,7 @@ interface iAddItem {
 }
 
 export default function AddItem({ text }: iAddItem) {
-	const { setModalState } = useContext(MainContext);
+	// const { setModalState } = useContext(MainContext);
 
 	// function addButton() {
 	// 	//TODO: сделать передачу любого id модалки

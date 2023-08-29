@@ -1,54 +1,85 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Formik, Form } from "formik";
 import { pathNames } from "../../constants/path";
-import Input from "../UI/Form/components/Input/Input";
+
 import Button from "../UI/Form/components/Button/Button";
+
 import style from "./FormLayout.module.scss";
-import { IAuthData } from "../../interfaces/authData";
+import { FormSchema, validationSchema } from "../../constants/validationSchema";
+import { fetchRegistration } from "../../store/features/AuthSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import FormField from "../UI/Form/components/Input/FormField";
+import { useEffect } from "react";
 
-interface IRegister {
-	authData: IAuthData;
-}
-
-export default function Register({ authData }: IRegister) {
+export default function Register() {
+	const dispatch = useAppDispatch();
+	const userData = useAppSelector(state => state.auth.userData);
+	const errorMessage = useAppSelector(state => state.auth.error);
+	const navigate = useNavigate();
+	async function handleRegistration({
+		email,
+		password,
+	}: {
+		email: string;
+		password: string;
+	}) {
+		try {
+			dispatch(
+				fetchRegistration({
+					email,
+					password,
+				})
+			);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+	useEffect(() => {
+		if (userData) {
+			navigate("/");
+		}
+	}, [dispatch, userData, navigate]);
 	return (
 		<>
 			<div className={style.mainForm__header}>
 				<h3 className={style.mainForm__title}>Создание учетной записи</h3>
 			</div>
-			<div className={style.mainForm__body}>
-				<form
-					className={style.mainForm__form}
-					onSubmit={authData.handlerRegistration}
-				>
+			<Formik
+				className={style.mainForm__body}
+				validationSchema={FormSchema}
+				initialValues={{ email: "", password: "" }}
+				validateOnChange={false}
+				onSubmit={handleRegistration}
+			>
+				<Form noValidate>
 					<div className={style["mainForm__form-wrapper"]}>
-						<Input
+						<FormField
 							id={"email"}
 							fieldType={"email"}
+							name="email"
 							hasLabel={true}
 							labelText={"E-mail"}
 							placeholder={"Введите свой e-mail"}
 						/>
-						<Input
+						<FormField
 							id={"password"}
 							fieldType={"password"}
 							hasLabel={true}
 							labelText={"Пароль"}
 							placeholder={"Введите свой пароль"}
+							name="password"
 						/>
-						<Input
+						<FormField
 							id={"passwordRepeat"}
 							fieldType={"password"}
 							hasLabel={true}
 							labelText={"Повторите пароль"}
 							placeholder={"Повторите пароль"}
+							name="confirm"
 						/>
 					</div>
-
 					<div className={style["mainForm__buttons-wrapper"]}>
-						<span className={style.mainForm__error}>
-							{authData.errorMessage}
-						</span>
+						<span className={style.mainForm__error}>{errorMessage}</span>
 						<div className={style.mainForm__button}>
 							<Button typeButton={"submit"} nameButton={"Регистрация"} />
 						</div>
@@ -62,8 +93,8 @@ export default function Register({ authData }: IRegister) {
 							</Link>
 						</div>
 					</div>
-				</form>
-			</div>
+				</Form>
+			</Formik>
 		</>
 	);
 }
